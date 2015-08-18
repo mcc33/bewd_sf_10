@@ -16,11 +16,7 @@ require 'json'
 
 def connect_to_api(url)
   response = RestClient.get(url)
-  #RestClient, being told to get the url passed as the argument.
-  #Set equal to 'response', so the rest client executing the code is stored in the 'response' variable.
   JSON.parse(response)
-  #JSON having parse method called and passed the 'response' variable,
-  #so it will receive the reddit JSON and transform data into a more readable format that can be manipulated
 end
 
 def find_stories(response)
@@ -33,9 +29,7 @@ end
 
 def print_stories(stories)
   stories.each do |story|
-      create_story_hash(story["data"])
-    #code block iterates through what is passed and executes the 'create_story_hash' method
-    #which creates an array of hashes with data from reddit JSON
+      create_story_hash(story)
   end
 end
 
@@ -43,21 +37,9 @@ def create_story_hash(story)
   new_story = {category: story["subreddit"], title: story["title"], upvotes: story["ups"]}
   puts new_story
 end
-#Creates a new hash with category, title, and upvote keys.
 
-reddit_url = "http://www.reddit.com/.json"
-reddit_json_response = connect_to_api(reddit_url)
-#variable set equal to method being called on the reddit url
-stories = find_stories(reddit_json_response)
-#'find_stories' method being called on the above variable-
-#which is set equal to the parsed reddit json.
-array = print_stories(stories)
-#calling the print_stories method
-array
-
-def find_mashable_stories(response) #Here
-  stories = []
-  stories.push(response["hot"], response["new"], response["rising"])
+def find_mashable_stories(response) 
+  stories = response["new"]
   puts "Mashable has blessed us with #{stories.count} stories"
   return stories
 end
@@ -69,14 +51,11 @@ def print_mashable_stories(stories)
 end
 
 def create_mashable_story_hash(story)
-  new_story = {category: story["channel".to_i], title: story["title".to_i], upvotes: story["shares".to_i]}
+  new_story = {category: story["channel_label"], title: story["title"], upvotes: story["shares"]["total"]}
   puts new_story
 end
 
 mashable_url = "http://mashable.com/stories.json"
 mashable_json_response = connect_to_api(mashable_url)
-mashable_stories = find_mashable_stories(mashable_json_response)
-mashable_array = print_mashable_stories(mashable_stories)
-mashable_array
-#The to_i method fixes my TypeError ' []: no implicit conversion of String into Integer '
-#Still have the problem that rather than a concise hash being printed, a wall of text is returned.
+stories = find_mashable_stories(mashable_json_response)
+print_stories(stories)
