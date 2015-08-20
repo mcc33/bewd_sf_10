@@ -16,30 +16,43 @@ require 'json'
 
 def connect_to_api(url)
   response = RestClient.get(url)
+<<<<<<< HEAD
   #RestClient, being told to get the url passed as the argument.
   #Set equal to 'response', so the rest client executing the code is stored in the 'response' variable.
   JSON.parse(response)
   #JSON having parse method called and passed the 'response' variable,
   #so it will receive the reddit JSON and transform data into a more readable format that can be manipulated
+=======
+  JSON.parse(response)
+>>>>>>> 43d933dfc339dccb02a330db173fa830015e4326
 end
 
 def find_stories(response)
   stories = response["data"]["children"]
+<<<<<<< HEAD
   #'response' is a hash, but stories is a new array set equal to the 'children' array from reddit JSON
   puts "Reddit has blessed us with #{stories.count} stories"
   #returns '.count' method on the response array
+=======
+  puts "*******Reddit has blessed us with #{stories.count} stories *******"
+>>>>>>> 43d933dfc339dccb02a330db173fa830015e4326
   return stories
 end
 
 def print_stories(stories)
   stories.each do |story|
+<<<<<<< HEAD
       create_story_hash(story["data"])
     #code block iterates through what is passed and executes the 'create_story_hash' method
     #which creates an array of hashes with data from reddit JSON
+=======
+    create_story_hash(story["data"])
+>>>>>>> 43d933dfc339dccb02a330db173fa830015e4326
   end
 end
 
 def create_story_hash(story)
+<<<<<<< HEAD
   new_story = {category: story["subreddit"], title: story["title"], upvotes: story["ups"]}
   puts new_story
 end
@@ -80,3 +93,18 @@ mashable_array = print_mashable_stories(mashable_stories)
 mashable_array
 #The to_i method fixes my TypeError ' []: no implicit conversion of String into Integer '
 #Still have the problem that rather than a concise hash being printed, a wall of text is returned.
+=======
+  {category: story["subreddit"], title: story["title"], upvotes: story["ups"]}
+end
+
+reddit_url ="http://www.reddit.com/.json"
+reddit_json_response = connect_to_api(reddit_url)
+stories = find_stories(reddit_json_response)
+print_stories(stories)
+
+
+
+
+
+#####
+>>>>>>> 43d933dfc339dccb02a330db173fa830015e4326

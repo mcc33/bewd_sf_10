@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 #1 - Pull the json from the reddit API via http://www.reddit.com/.json
   # - http://mashable.com/stories.json (homework)
 #2 - Parse it using the JSON library
@@ -12,10 +13,15 @@
 
 require 'rest-client'
 require 'pry'
+=======
+require 'pry'
+require 'rest-client'
+>>>>>>> 43d933dfc339dccb02a330db173fa830015e4326
 require 'json'
 
 def connect_to_api(url)
   response = RestClient.get(url)
+<<<<<<< HEAD
   JSON.parse(response)
 end
 
@@ -59,3 +65,30 @@ mashable_url = "http://mashable.com/stories.json"
 mashable_json_response = connect_to_api(mashable_url)
 stories = find_mashable_stories(mashable_json_response)
 print_stories(stories)
+=======
+  json_response = JSON.parse(response)
+  find_stories(json_response)
+end
+
+def find_stories(json_response)
+  stories = json_response["hot"]
+  print_stories(stories)
+end
+
+def print_stories(stories)
+  #deletes watercooler stories
+  stories = stories.delete_if {|story| story["channel"] == "Watercooler"}
+  #creates hash for non-watercooler stories
+  stories.each do |story|
+   create_story_hash(story)
+  end
+  puts "I have #{stories.count}. It excludes the Watercooler category "
+end
+
+def create_story_hash(story)
+  {title: story["title"], category: story["channel"], upvotes: story["shares"]["total"]}
+end
+
+mashable_url =  "http://mashable.com/stories.json"
+connect_to_api(mashable_url)
+>>>>>>> 43d933dfc339dccb02a330db173fa830015e4326
