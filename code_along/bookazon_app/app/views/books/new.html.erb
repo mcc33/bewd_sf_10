@@ -1,0 +1,19 @@
+<div class="col-es-12">
+
+<h1 style="color:#cc3333"> New Book </h1>
+<div class="well">
+  <%= simple_form_for @book do |f| %>
+   <%= f.input :title %>
+   <%= f.input :author %>
+   <%= f.input :genre %>
+   <%= f.input :image_url %>
+  <%= f.input :year_published %>
+  <%= f.submit "Submit".html_safe, class: 'btn btn-lg btn-danger' %>
+  <% end %>
+</div>
+
+</div>
+
+
+<!-- This creates a form to collect data, and is associated with the 'new' action in the corresponding controller.
+It is also associated with the http 'get' verb, which receives a user's input -->
